@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Book from './book.js'
+import Book from './Book.js'
 
 export default class Shelf extends Component {
     static propTypes = {
@@ -14,11 +14,11 @@ export default class Shelf extends Component {
                 <div className="bookshelf-books">
                     <ol className="books-grid">
                         {this.props.books.map((book) => (
-                            <li>
+                            <li key={book.id}>
                                 <Book 
-                                    url={book.url}
+                                    url={book.imageLinks}
                                     title={book.title}
-                                    author={book.author}
+                                    authors={book.authors}
                                 />
                             </li>
                         ))}
