@@ -7,6 +7,13 @@ export default class Book extends Component {
         title: PropTypes.string.isRequired,
         authors: PropTypes.array.isRequired
     }
+    constructAuthors(authors) {
+        var authorsString = ""
+        authors.forEach(element => {
+            authorsString += element + ", "
+        });
+        return authorsString.trimEnd().slice(0, -1)
+    }
     render() {
         return (
                 <div className="book">
@@ -23,7 +30,7 @@ export default class Book extends Component {
                             </div>
                         </div>
                         <div className="book-title">{this.props.title}</div>
-                    <div className="book-authors">{this.props.authors}</div>
+                    <div className="book-authors">{this.constructAuthors(this.props.authors)}</div>
                 </div>
         )
     }
