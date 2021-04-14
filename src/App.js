@@ -13,13 +13,16 @@ class BooksApp extends React.Component {
     this.getAllBooks()
   }
   async getAllBooks() {
-    const allBooks = await BooksAPI.getAll()
-    console.log(allBooks)
+    const books = await BooksAPI.getAll()
+    console.log(books)
+    this.setState({
+      books
+    })
   }
   render() {
     return (
       <div className="app">
-        <Route exact path="/" component={ListBooks}></Route>
+        <Route exact path="/" render={() => (<ListBooks books={this.state.books}/>)}></Route>
         <Route path="/search" component={SearchBooks}></Route>
       </div>
     )

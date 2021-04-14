@@ -16,7 +16,7 @@ export default class Shelf extends Component {
                         {this.props.books.map((book) => (
                             <li key={book.id}>
                                 <Book 
-                                    url={book.imageLinks}
+                                    url={book.imageLinks.thumbnail}
                                     title={book.title}
                                     authors={book.authors}
                                 />
