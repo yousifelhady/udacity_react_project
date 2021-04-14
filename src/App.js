@@ -2,7 +2,6 @@ import React from 'react'
 // import * as BooksAPI from './BooksAPI'
 import './App.css'
 import Shelf from './components/shelf.js'
-import Book from './components/book.js'
 
 const current_books = [
   {
@@ -50,14 +49,19 @@ class BooksApp extends React.Component {
      */
     showSearchPage: false
   }
-
+  handleOpenSearch = () => {
+    this.setState({ showSearchPage: true })
+  }
+  handleCloseSearch = () => {
+    this.setState({ showSearchPage: false })
+  }
   render() {
     return (
       <div className="app">
         {this.state.showSearchPage ? (
           <div className="search-books">
             <div className="search-books-bar">
-              <button className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</button>
+              <button className="close-search" onClick={() => this.handleCloseSearch()}>Close</button>
               <div className="search-books-input-wrapper">
                 {/*
                   NOTES: The search from BooksAPI is limited to a particular set of search terms.
@@ -97,7 +101,7 @@ class BooksApp extends React.Component {
               </div>
             </div>
             <div className="open-search">
-              <button onClick={() => this.setState({ showSearchPage: true })}>Add a book</button>
+              <button onClick={() => this.handleOpenSearch()}>Add a book</button>
             </div>
           </div>
         )}
