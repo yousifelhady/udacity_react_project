@@ -3,9 +3,8 @@ import PropTypes from 'prop-types'
 
 export default class Book extends Component {
     static propTypes = {
-        url: PropTypes.string,
-        title: PropTypes.string.isRequired,
-        authors: PropTypes.array.isRequired
+        book: PropTypes.object.isRequired,
+        onUpdateBook: PropTypes.func
     }
     constructAuthors(authors) {
         var authorsString = ""
@@ -14,13 +13,18 @@ export default class Book extends Component {
         });
         return authorsString.trimEnd().slice(0, -1)
     }
+    moveBook = (e) => {
+        const shelf = e.target.value
+        this.props.onUpdateBook(this.props.book, shelf)
+    }
     render() {
+        const {book} = this.props
         return (
                 <div className="book">
                     <div className="book-top">
-                        <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${this.props.url})` }}></div>
+                        <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
                             <div className="book-shelf-changer">
-                                <select>
+                                <select defaultValue={book.shelf} onChange={this.moveBook}>
                                     <option value="move" disabled>Move to...</option>
                                     <option value="currentlyReading">Currently Reading</option>
                                     <option value="wantToRead">Want to Read</option>
@@ -29,8 +33,8 @@ export default class Book extends Component {
                                 </select>
                             </div>
                         </div>
-                        <div className="book-title">{this.props.title}</div>
-                    <div className="book-authors">{this.constructAuthors(this.props.authors)}</div>
+                        <div className="book-title">{book.title}</div>
+                    <div className="book-authors">{this.constructAuthors(book.authors)}</div>
                 </div>
         )
     }

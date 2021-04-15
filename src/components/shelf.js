@@ -5,7 +5,8 @@ import Book from './Book.js'
 export default class Shelf extends Component {
     static propTypes = {
         name: PropTypes.string.isRequired,
-        books: PropTypes.array.isRequired
+        books: PropTypes.array.isRequired,
+        onUpdateBook: PropTypes.func
     }
     render() {
         return (
@@ -16,9 +17,8 @@ export default class Shelf extends Component {
                         {this.props.books.map((book) => (
                             <li key={book.id}>
                                 <Book 
-                                    url={book.imageLinks.thumbnail}
-                                    title={book.title}
-                                    authors={book.authors}
+                                    book = {book}
+                                    onUpdateBook = {this.props.onUpdateBook}
                                 />
                             </li>
                         ))}
