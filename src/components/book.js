@@ -6,12 +6,30 @@ export default class Book extends Component {
         book: PropTypes.object.isRequired,
         onUpdateBook: PropTypes.func
     }
-    constructAuthors(authors) {
-        var authorsString = ""
-        authors.forEach(element => {
-            authorsString += element + ", "
-        });
-        return authorsString.trimEnd().slice(0, -1)
+    constructAuthors = () => {
+        let authors = null
+        try {
+            authors = this.book.authors
+            var authorsString = ""
+            authors.forEach(element => {
+                authorsString += element + ", "
+            });
+            return authorsString.trimEnd().slice(0, -1)
+        }
+        catch {
+            return ""
+        }
+    }
+    getBookThumbnail = function() {
+        let thumbnailLink = null
+        try {
+            thumbnailLink = this.book.imageLinks.thumbnail
+            console.log(thumbnailLink)
+        }
+        catch(err) {
+            thumbnailLink = ""
+        }
+        return thumbnailLink
     }
     moveBook = (e) => {
         const shelf = e.target.value
@@ -22,7 +40,7 @@ export default class Book extends Component {
         return (
                 <div className="book">
                     <div className="book-top">
-                        <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
+                        <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${this.getBookThumbnail()})` }}></div>
                             <div className="book-shelf-changer">
                                 <select defaultValue={book.shelf} onChange={this.moveBook}>
                                     <option value="move" disabled>Move to...</option>
@@ -34,7 +52,7 @@ export default class Book extends Component {
                             </div>
                         </div>
                         <div className="book-title">{book.title}</div>
-                    <div className="book-authors">{this.constructAuthors(book.authors)}</div>
+                    <div className="book-authors">{this.constructAuthors}</div>
                 </div>
         )
     }

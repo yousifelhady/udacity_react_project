@@ -7,7 +7,8 @@ import SearchBooks from './components/SearchBooks'
 
 class BooksApp extends React.Component {
   state = {
-    books: []
+    books: [],
+    searchBooks: []
   }
   componentDidMount() {
     this.getAllBooks()
@@ -21,21 +22,61 @@ class BooksApp extends React.Component {
   }
   updateBook = async (book, shelf) => {
     await BooksAPI.update(book, shelf)
-    this.setState({
-      books: this.state.books.map((_book) => {
-        if (_book.id === book.id) {
-          _book.shelf = shelf
-        }
-        return _book
+    var found = this.checkIfBookFound(book)
+    if (found) {
+      this.setState({
+        books: this.state.books.map((_book) => {
+          if (_book.id === book.id) {
+            _book.shelf = shelf
+          }
+          return _book
+        })
       })
-    })
+    } else {
+      book.shelf = shelf
+      this.setState({
+        books: [...this.state.books, book]
+      })
+    }
+  }
+  checkIfBookFound = (book) => {
+    var found = false
+    for (let i=0; i < this.state.books.length; i++) {
+      if (this.state.books[i].id === book.id)
+      {
+        found = true
+        break
+      }
+    }
+    return found
+  }
+  searchBook = async (query) => {
+    if (query === "") {
+      this.setState({
+        searchBooks: []
+      })
+    } else {
+      console.log(query)
+      const searchBooks = await BooksAPI.search(query)
+      console.log(searchBooks)
+      if (Array.isArray(searchBooks)) {
+        this.setState({
+          searchBooks
+        })
+      }
+      else {
+        this.setState({
+          searchBooks: []
+        })
+      }
+    }
   }
   render() {
     return (
       <div className="app">
         {console.log(this.state)}
         <Route exact path="/" render={() => (<ListBooks books={this.state.books} onUpdateBook={this.updateBook}/>)}></Route>
-        <Route path="/search" render={() => (<SearchBooks />)}></Route>
+        <Route path="/search" render={() => (<SearchBooks searchBooks={this.state.searchBooks} onSearchBook={this.searchBook} onUpdateBook={this.updateBook}/>)}></Route>
       </div>
     )
   }
