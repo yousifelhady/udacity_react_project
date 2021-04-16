@@ -56,9 +56,7 @@ class BooksApp extends React.Component {
         searchBooks: []
       })
     } else {
-      console.log(query)
       const searchBooks = await BooksAPI.search(query)
-      console.log(searchBooks)
       if (Array.isArray(searchBooks)) {
         this.setState({
           searchBooks
@@ -74,7 +72,6 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
-        {console.log(this.state)}
         <Route exact path="/" render={() => (<ListBooks books={this.state.books} onUpdateBook={this.updateBook}/>)}></Route>
         <Route path="/search" render={() => (<SearchBooks searchBooks={this.state.searchBooks} onSearchBook={this.searchBook} onUpdateBook={this.updateBook}/>)}></Route>
       </div>
