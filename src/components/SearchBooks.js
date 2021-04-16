@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
-import Book from './Book'
+import Book from './book'
 
 export class SearchBooks extends Component {
     static propTypes = {

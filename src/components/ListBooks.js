@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Shelf from './Shelf.js'
+import Shelf from './shelf.js'
 import { withRouter } from 'react-router-dom'
 
 export class ListBooks extends React.Component {
