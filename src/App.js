@@ -56,8 +56,9 @@ class BooksApp extends React.Component {
         searchBooks: []
       })
     } else {
-      const searchBooks = await BooksAPI.search(query)
+      var searchBooks = await BooksAPI.search(query)
       if (Array.isArray(searchBooks)) {
+        searchBooks = this.changeBooksShelf(searchBooks)
         this.setState({
           searchBooks
         })
@@ -68,6 +69,22 @@ class BooksApp extends React.Component {
         })
       }
     }
+  }
+  changeBooksShelf = (searchedBooks) => {
+    var myBooksDic = []
+    this.state.books.forEach(book => {
+      myBooksDic.push({key: book.id, value: book.shelf})
+    });
+    var returned = []
+    searchedBooks.forEach(searchedBook => {
+      myBooksDic.forEach(myBook => {
+        if (myBook['key'] === searchedBook.id) {
+          searchedBook.shelf = myBook['value']
+        }
+      });
+      returned.push(searchedBook)
+    });
+    return returned
   }
   render() {
     return (
