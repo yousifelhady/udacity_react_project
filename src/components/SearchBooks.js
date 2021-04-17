@@ -35,18 +35,26 @@ export class SearchBooks extends Component {
                             onChange={this.searchBook}/>
                     </div>
                 </div>
-                <div className="search-books-results">
-                    <ol className="books-grid">
-                        {this.props.searchBooks.map((book) => {
-                            return <li key={book.id}>
-                                <Book 
-                                    book={book} 
-                                    onUpdateBook={this.props.onUpdateBook}
-                                />
-                            </li>
-                        })}
-                    </ol>
-                </div>
+                {this.props.searchBooks.length === 0?
+                (
+                    <div className="search-books-results">
+                        <h3>Search result is empty!</h3>
+                    </div>
+                ) 
+                : (
+                    <div className="search-books-results">
+                        <ol className="books-grid">
+                            {this.props.searchBooks.map((book) => {
+                                return <li key={book.id}>
+                                    <Book 
+                                        book={book} 
+                                        onUpdateBook={this.props.onUpdateBook}
+                                    />
+                                </li>
+                            })}
+                        </ol>
+                    </div>
+                )}
             </div>
         )
     }
